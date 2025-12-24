@@ -1,8 +1,11 @@
 package com.hritik.GitPulse2.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -10,6 +13,9 @@ import java.time.LocalDateTime;
 @Table(name = "users")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
@@ -23,36 +29,19 @@ public class User {
     private String githubUsername;
 
     @Column(nullable = false)
-    private Boolean active = true;
+    private final Boolean active = true;
 
     @Column(name = "last_event_id")
     private String lastEventId;
 
     @Column(name = "created_at", nullable = false, updatable = false)
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    /**
-     * Default constructor.
-     */
-    public User() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    /**
-     * Parameterized constructor.
-     *
-     * @param email          User's email address
-     * @param githubUsername GitHub username to track
-     */
-    public User(String email, String githubUsername) {
-        this();
-        this.email = email;
-        this.githubUsername = githubUsername;
-    }
 
 
     @Override
